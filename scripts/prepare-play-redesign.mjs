@@ -1,0 +1,10 @@
+import sharp from 'sharp';
+import{readFile,writeFile}from'node:fs/promises';
+const mark='<defs><linearGradient id="emerald" x2="1" y2="1"><stop stop-color="#10b69a"/><stop offset="1" stop-color="#005c55"/></linearGradient></defs><rect width="100" height="100" rx="27" fill="url(#emerald)"/><path d="M31 50L56 25" stroke="#fff" stroke-width="17" stroke-linecap="round"/><circle cx="58" cy="69" r="10" fill="#fff"/>';
+const graphic=`<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500"><rect width="1024" height="500" fill="#f4faf8"/><path d="M790 500L910 180L1050 500M670 500L825 250L970 500" fill="#dcf1e9"/><g transform="translate(64 70)">${mark}</g><text x="190" y="140" font-family="Arial,sans-serif" font-size="54" font-weight="700" fill="#10252d">Tracksy</text><text x="64" y="265" font-family="Arial,sans-serif" font-size="43" font-weight="700" fill="#10252d">Shared expenses.</text><text x="64" y="324" font-family="Arial,sans-serif" font-size="43" font-weight="700" fill="#10252d">More moments together.</text><text x="64" y="404" font-family="Arial,sans-serif" font-size="24" fill="#657b86">Split expenses and keep your groups in sync.</text></svg>`;
+await writeFile('artifacts/play-store/feature-0.3.svg',graphic);
+await sharp(Buffer.from(graphic)).png().toFile('artifacts/play-store/feature-0.3.png');
+const listing=JSON.parse(await readFile('artifacts/play-store/listing.json','utf8'));
+listing.fullDescription=listing.fullDescription.replace('An email account is required to sign in.','Sign in with email and password or continue with Google.').replace('Store subscriptions, Google/Apple sign-in, push delivery, and background scheduling are not enabled.','Store subscriptions, Apple sign-in, push delivery, and background scheduling are not enabled.');
+await writeFile('artifacts/play-store/listing-0.3.json',JSON.stringify(listing,null,2));
+console.log('Prepared code-native emerald feature graphic and updated Google sign-in listing copy.');

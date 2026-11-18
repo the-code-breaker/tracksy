@@ -1,0 +1,13 @@
+import sharp from 'sharp';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+const directory = new URL('../apps/mobile/assets/branding/',import.meta.url);
+await mkdir(directory,{recursive:true});
+const mark = '<defs><linearGradient id="emerald" x2="1" y2="1"><stop stop-color="#10b69a"/><stop offset="1" stop-color="#005c55"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#emerald)"/><path d="M15 24L27 12" stroke="#fff" stroke-width="8" stroke-linecap="round"/><circle cx="28" cy="33" r="5" fill="#fff"/>';
+const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#ffffff"/><g transform="translate(160 160) scale(14.6666667)">${mark}</g></svg>`;
+const adaptive = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><g transform="translate(232 232) scale(11.6666667)">${mark}</g></svg>`;
+await writeFile(new URL('icon.svg',directory),icon);
+await writeFile(new URL('adaptive-foreground.svg',directory),adaptive);
+await sharp(Buffer.from(icon)).png().toFile(fileURLToPath(new URL('icon.png',directory)));
+await sharp(Buffer.from(adaptive)).png().toFile(fileURLToPath(new URL('adaptive-foreground.png',directory)));
+console.log('Prepared Tracksy launcher artwork from the existing SVG brand mark.');

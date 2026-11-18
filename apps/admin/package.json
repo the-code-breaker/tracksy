@@ -1,0 +1,1 @@
+{"name":"@tracksy/admin","version":"0.1.0","private":true,"scripts":{"dev":"next dev -p 3001","build":"next build","typecheck":"tsc --noEmit"},"dependencies":{"next":"^16.0.0","react":"19.2.0","react-dom":"19.2.0","@supabase/ssr":"^0.7.0","@supabase/supabase-js":"^2.57.0"},"devDependencies":{"@types/react":"~19.2.0","@types/react-dom":"~19.2.0"}}

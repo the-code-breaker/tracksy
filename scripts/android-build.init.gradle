@@ -1,0 +1,13 @@
+// Keep CMake's replaceable staging directories outside the watched workspace.
+gradle.beforeProject { target ->
+    ['com.android.application', 'com.android.library'].each { pluginId ->
+        target.pluginManager.withPlugin(pluginId) {
+            def stagingRoot = System.getenv('TRACKSY_NATIVE_BUILD_ROOT')
+            if (stagingRoot) {
+                target.extensions.getByName('android').externalNativeBuild.cmake {
+                    buildStagingDirectory = new File(stagingRoot, target.name)
+                }
+            }
+        }
+    }
+}
